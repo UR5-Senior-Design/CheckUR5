@@ -1,1 +1,1 @@
-# Checkers-UR5
+# CheckUR5
