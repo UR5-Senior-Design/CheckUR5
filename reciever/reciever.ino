@@ -9,10 +9,10 @@ int magnet_val;
 //the setup function runs once when you press rest or power to board
 void setup(){
     //initialize MAGNET_PIN as an output
-    pinMode(MAGNET_PIN, OUTPUT)
+    pinMode(MAGNET_PIN, OUTPUT);
 
     //start the serial monitor
-    Serial.begin(9600)
+    Serial.begin(9600);
 }
 
 //the loop functions runs over and over again forever
@@ -29,14 +29,14 @@ void loop(){
         message.trim(); //get rid of any whitespace at end of string
 
         //turn magnet on or off depending on message
-        switch(message)
+
+        if(message == MAGNET_ON)
         {
-            case MAGNET_ON:
-                digitalWrite(MAGNET_PIN,HIGH); //turn the electromagnet on (HIGH Is the voltage level)
-                break;
-            case MAGNET_OFF:
-                digitialWrite(MAGNET_PIN,LOW) //turn the electromagent off by making the voltage LOQ
-                break;
+          digitalWrite(MAGNET_PIN,HIGH); //turn the electromagnet on (HIGH Is the voltage level)   
+        }
+        else if(message == MAGNET_OFF)
+        {
+           digitalWrite(MAGNET_PIN,LOW); //turn the electromagent off by making the voltage LOQ
         }
         delay(5000); //wait for 5 seconds
 
