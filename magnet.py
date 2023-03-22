@@ -1,16 +1,19 @@
 import serial
 import time
 
+def sendMagnetMsg(msg)
+{
+    print(f"Sending message to Arduino: {msg}")
+    arduino.write(str.encode(msg))
+}
 # send message to turn magnet on
 def turnMagnetOn():
     msg = "Magnet ON"
-    print(f"Sending message to Arduino: {msg}")
-    arduino.write(str.encode(msg))
+    sendMagnetMsg(msg)
     
 def turnMagnetOff():
     msg = "Magnet OFF"
-    print(f"Sending message to Arduino: {msg}")
-    arduino.write(str.encode(msg))
+    sendMagnetMsg(msg)
 
 
 # send message to turn magnet off
