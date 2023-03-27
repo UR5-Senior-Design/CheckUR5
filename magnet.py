@@ -1,31 +1,30 @@
 import serial
 import time
 
-def sendMagnetMsg(msg)
-{
+def sendMagnetMsg(msg, arduino):
     print(f"Sending message to Arduino: {msg}")
     arduino.write(str.encode(msg))
-}
+
 # send message to turn magnet on
-def turnMagnetOn():
+def turnMagnetOn(arduino):
     msg = "Magnet ON"
-    sendMagnetMsg(msg)
+    sendMagnetMsg(msg, arduino)
     
-def turnMagnetOff():
+def turnMagnetOff(arduino):
     msg = "Magnet OFF"
-    sendMagnetMsg(msg)
+    sendMagnetMsg(msg, arduino)
 
 
 # send message to turn magnet off
 
-arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=0)
-time.sleep(2)
+# arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=0)
+# time.sleep(2)
 
-while(True):
-    turnMagnetOn()
+# while(True):
+#     turnMagnetOn(arduino)
 
-    time.sleep(5)
+#     time.sleep(5)
 
-    turnMagnetOff()
+#     turnMagnetOff(arduino)
     
-    time.sleep(5)
+#     time.sleep(5)

@@ -1,15 +1,19 @@
+# Note: moveL pose vector based on from "base" XYZ, RX, RY, RZ values on pendant IN METERS
+
 import serial
 import time
 import rtde_control
 import rtde_receive
+from magnet import *
 
-RESTING_POS = [0.23953, -0.09013, 0.02582, 1.819, -1.931, -0.440]
+
+RESTING_POS = [0.27206, -0.10977, 0.04678, 2.036, -2.366, 0.012]
 
 rtde_c = rtde_control.RTDEControlInterface("192.168.1.102")
 rtde_r = rtde_receive.RTDEReceiveInterface("192.168.1.102")
 
 # open communication with Arduino
-arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=0)
+arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=0)
 time.sleep(2)
 
 if rtde_c.isConnected():
@@ -22,7 +26,7 @@ if rtde_c.isConnected():
     print(f"Current Actual TCP Pose: {current_pos}")
     
     # move to the first test position and turn magnet on
-    base_pos1 = [0.79257, -0.03927, 0.00673, 2.155, -2.305, 0.066]
+    base_pos1 = [0.66451, -0.03888, 0.01947, 2.156, -2.260, 0.023]
     print(f"Moving to base position {base_pos1}")
     rtde_c.moveL(base_pos1, speed, acceleration)
 
@@ -37,15 +41,17 @@ if rtde_c.isConnected():
     print(f"Target Waypoint: {target_wp}")
     print(f"Finished moving.")
     
-    msg = "Magnet ON"
-    print(f"Sending message to Arduino: {msg}")
-    arduino.write(str.encode(msg))
+    turnMagnetOn(arduino)
     
     # TODO: Check for a message from Arduino that the magnet is now ON
     time.sleep(2)
     
+    # lift up
+    base_pos1[2] += 0.030
+    rtde_c.moveL(base_pos1, speed, acceleration)
+    
     # move to next position and turn magnet off
-    base_pos2 = [0.60454, -0.10426, 0.00854, 2.051, -2.374, 0.026]
+    base_pos2 = [0.79251, -0.1617, 0.02093, 1.951, -2.439, 0.027]
     print(f"Moving to base position {base_pos2}")
     rtde_c.moveL(base_pos2, speed, acceleration)
     
@@ -54,11 +60,12 @@ if rtde_c.isConnected():
     #     print(f"Current Actual TCP Pose: {current_pos}")
     time.sleep(5)
     
+    current_pos = rtde_r.getActualTCPPose()
+    print(f"Current Actual TCP Pose: {current_pos}")
+    
     print(f"Finished moving.")
         
-    msg = "Magnet OFF"
-    print(f"Sending message to Arduino: {msg}")
-    arduino.write(str.encode(msg))
+    turnMagnetOff(arduino)
     
     # TODO: Check for a message from Arduino that the magnet is now OFF
     time.sleep(2)
@@ -71,6 +78,9 @@ if rtde_c.isConnected():
     #     current_pos = rtde_r.getActualTCPPose()
     #     print(f"Current Actual TCP Pose: {current_pos}")
     time.sleep(5)
+    
+    current_pos = rtde_r.getActualTCPPose()
+    print(f"Current Actual TCP Pose: {current_pos}")
         
     print(f"Finished moving.")
     print(f"Finished turn.")
