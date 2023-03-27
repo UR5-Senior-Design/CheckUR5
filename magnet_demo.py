@@ -32,10 +32,14 @@ if rtde_c.isConnected():
 
     # TODO: check if robot arm has reached its destination instead of using sleep
     # checking if robot arm has reached its destination yet
-    # while current_pos != base_pos1:
-    #     current_pos = rtde_r.getActualTCPPose()
-    #     print(f"Current Actual TCP Pose: {current_pos}")
-    time.sleep(5)
+    target = base_pos1
+    error = 0.0040
+    
+    while not ((target[0]-error <= current_pos[0] <= target[0]+error)
+            and (target[1]-error <= current_pos[1] <= target[1]+error)):
+            current_pos = rtde_r.getActualTCPPose()
+            print(f"Current Actual TCP Pose: {current_pos}")
+    #time.sleep(5)
 
     target_wp = rtde_c.getTargetWaypoint()
     print(f"Target Waypoint: {target_wp}")
@@ -55,10 +59,13 @@ if rtde_c.isConnected():
     print(f"Moving to base position {base_pos2}")
     rtde_c.moveL(base_pos2, speed, acceleration)
     
-    # while current_pos != base_pos2:
-    #     current_pos = rtde_r.getActualTCPPose()
-    #     print(f"Current Actual TCP Pose: {current_pos}")
-    time.sleep(5)
+    target = base_pos2
+    
+    while not ((target[0]-error <= current_pos[0] <= target[0]+error)
+        and (target[1]-error <= current_pos[1] <= target[1]+error)):
+        current_pos = rtde_r.getActualTCPPose()
+        print(f"Current Actual TCP Pose: {current_pos}")
+    #time.sleep(5)
     
     current_pos = rtde_r.getActualTCPPose()
     print(f"Current Actual TCP Pose: {current_pos}")
@@ -74,10 +81,6 @@ if rtde_c.isConnected():
     print(f"Moving to resting position {RESTING_POS}")
     rtde_c.moveL(RESTING_POS, speed, acceleration)
     
-    # while current_pos != RESTING_POS:
-    #     current_pos = rtde_r.getActualTCPPose()
-    #     print(f"Current Actual TCP Pose: {current_pos}")
-    time.sleep(5)
     
     current_pos = rtde_r.getActualTCPPose()
     print(f"Current Actual TCP Pose: {current_pos}")
