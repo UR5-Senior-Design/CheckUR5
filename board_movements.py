@@ -91,7 +91,7 @@ def dropPiece(target):
     rtde_c.moveL(RESTING_POS, speed, acceleration)
     
 def main():
-    position1 = getPosition"B1")
+    position1 = getPosition("B1")
     position2 = getPosition("D3")
     
     grabPiece(position1)
