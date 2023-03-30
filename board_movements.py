@@ -17,7 +17,7 @@ rtde_r = rtde_receive.RTDEReceiveInterface("192.168.1.102")
 
 # destination is a string ("A1", "A2", "D6", etc.)
 # return the base position list of the coordinate square
-def getPosition(destination):
+def get_position(destination):
     X = TOP_LEFT["x"]
     Y = TOP_LEFT["y"]
     Z = TOP_LEFT["z"]
@@ -41,7 +41,7 @@ def getPosition(destination):
     return new_pos
 
 # check if the robot arm has arrived to the target position before doing any other actions
-def checkArrival(target):
+def check_arrival(target):
     current_pos = rtde_r.getActualTCPPose()
     error = 0.0040
 
@@ -52,21 +52,21 @@ def checkArrival(target):
 
 # destination/target is a base position list: [x, y, z, rx, ry, rz]
 # go to the target position where robot arm will pick up piece
-def grabPiece(target):
+def grab_piece(target):
     hover_pos = target.copy()
     hover_pos[2] += HOVER_DIFF
     
     rtde_c.moveL(hover_pos, speed, acceleration)
     rtde_c.moveL(target, speed, acceleration)
     
-    checkArrival(target)
+    check_arrival(target)
     
     # TODO: TURN ON THE MAGNET
     turnMagnetOn(arduino)
     time.sleep(1) # give magnet time to turn on
 
 # go to the target position where robot arm will drop piece
-def dropPiece(target):
+def drop_piece(target):
     current_pos = rtde_r.getActualTCPPose()
     
     hover_pos1 = current_pos.copy()
@@ -80,7 +80,7 @@ def dropPiece(target):
     rtde_c.moveL(hover_pos2, speed, acceleration)
     rtde_c.moveL(target, speed, acceleration)
     
-    checkArrival(target)
+    check_arrival(target)
     
     # TODO: TURN OFF THE MAGNET
     turnMagnetOff(arduino)
@@ -94,7 +94,7 @@ def main():
     position1 = getPosition("B1")
     position2 = getPosition("D3")
     
-    grabPiece(position1)
-    dropPiece(position2)
+    grab_piece(position1)
+    drop_piece(position2)
 
 main()
