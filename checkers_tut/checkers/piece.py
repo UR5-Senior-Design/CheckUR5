@@ -7,8 +7,10 @@ class Piece:
         
         if self.id < 13:
             self.direction = -1
+            self.color = "orange"
         else:
             self.direction = 1
+            self.color = "blue"
         
     def make_king(self):
         self.king = True

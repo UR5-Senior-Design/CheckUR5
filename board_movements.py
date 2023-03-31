@@ -61,7 +61,7 @@ def grab_piece(target):
     
     check_arrival(target)
     
-    # TODO: TURN ON THE MAGNET
+    # TURN ON THE MAGNET
     turnMagnetOn(arduino)
     time.sleep(1) # give magnet time to turn on
 
@@ -82,7 +82,7 @@ def drop_piece(target):
     
     check_arrival(target)
     
-    # TODO: TURN OFF THE MAGNET
+    # TURN OFF THE MAGNET
     turnMagnetOff(arduino)
     time.sleep(1) # give magnet time to turn off
     
@@ -91,8 +91,8 @@ def drop_piece(target):
     rtde_c.moveL(RESTING_POS, speed, acceleration)
     
 def main():
-    position1 = getPosition("B1")
-    position2 = getPosition("D3")
+    position1 = get_position("B1")
+    position2 = get_position("D3")
     
     grab_piece(position1)
     drop_piece(position2)
