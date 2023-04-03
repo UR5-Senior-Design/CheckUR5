@@ -92,7 +92,7 @@ def drop_piece(target):
     
 def main():
     position1 = get_position("B1")
-    position2 = get_position("D3")
+    position2 = get_position("F7")
     
     grab_piece(position1)
     drop_piece(position2)
