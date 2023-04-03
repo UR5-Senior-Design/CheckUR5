@@ -45,12 +45,20 @@ def findAruco(img):
     arucoParam = cv2.aruco.DetectorParameters()
     arucoDetector = cv2.aruco.ArucoDetector(arucoDict, arucoParam)
     
-    bbox, ids, _ = arucoDetector.detectMarkers(gray)
-    print(ids)
+    marker_corners, ids, _ = arucoDetector.detectMarkers(gray)
+    # print(ids[1], marker_corners[1][0][0][0])
     
-    cv2.aruco.drawDetectedMarkers(img, bbox)
+    all_arucos = {}
     
-    return bbox, ids
+    if ids is not None:
+        for i in range (len(ids)):
+            x_center = (marker_corners[i][0][0][0] + marker_corners[i][0][1][0] + marker_corners[i][0][2][0] + marker_corners[i][0][3][0])/4
+            y_center = (marker_corners[i][0][0][1] + marker_corners[i][0][1][1] + marker_corners[i][0][2][1] + marker_corners[i][0][3][1])/4
+            all_arucos[ids[i][0]] = [int(x_center/125), int(y_center/125)]
+    
+    cv2.aruco.drawDetectedMarkers(img, marker_corners)
+    
+    return all_arucos
 
 pipeline = rs.pipeline()
 config = rs.config()
@@ -58,7 +66,7 @@ config = rs.config()
 config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30)
 
 color_path = 'V00P00A00C00_rgb.avi'
-depth_path = 'V00P00A00C00_depth.avi'
+# depth_path = 'V00P00A00C00_depth.avi'
 colorwriter = cv2.VideoWriter(color_path, cv2.VideoWriter_fourcc(*'XVID'), 30, (1920,1080), 1)
 # depthwriter = cv2.VideoWriter(depth_path, cv2.VideoWriter_fourcc(*'XVID'), 30, (640,480), 1)
 
@@ -96,7 +104,9 @@ try:
                            [0, -1, 0]])
         output = cv2.filter2D(src=output, ddepth=-1, kernel=kernel)
         
-        bbox, ids = findAruco(output)
+        all_arucos = findAruco(output)
+        
+        print(all_arucos)
         
         # cv2.imshow("Image", color_image)
         cv2.imshow("Output", output)
