@@ -36,13 +36,15 @@ class Board:
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
         
-        if row == 7 or row == 0:
+        # verify color for each king 
+        # ex. row 7 will make oranges kings ONLY not blue
+        if row == 7 and piece.color == "orange":
             piece.make_king()
-            if piece.color == "orange":
-                self.orange_kings += 1
-            else:
-                self.blue_kings += 1
-    
+            self.orange_kings += 1
+        elif row == 0 and piece.color == "blue":
+            piece.make_king()
+            self.blue_kings += 1
+                
     def winner(self):
         if self.blue_left <= 0:
             return "orange"
@@ -50,7 +52,6 @@ class Board:
             return "blue"
         
         return None
-        
                 
     def remove(self, pieces):
         for piece in pieces:

@@ -2,7 +2,7 @@ class Piece:
     def __init__(self, row, col, id):
         self.row = row
         self.col = col
-        self.id = id
+        self.id = id # aruco marker id
         self.king = False
         
         if self.id < 13:
