@@ -1,6 +1,7 @@
 import pyrealsense2 as rs
 import numpy as np
 import cv2
+from checkers.board import Board
 
 # class CheckersPiece:
 #     isKing = False
@@ -54,11 +55,15 @@ def findAruco(img):
         for i in range (len(ids)):
             x_center = (marker_corners[i][0][0][0] + marker_corners[i][0][1][0] + marker_corners[i][0][2][0] + marker_corners[i][0][3][0])/4
             y_center = (marker_corners[i][0][0][1] + marker_corners[i][0][1][1] + marker_corners[i][0][2][1] + marker_corners[i][0][3][1])/4
-            all_arucos[ids[i][0]] = [int(x_center/125), int(y_center/125)]
+            all_arucos[ids[i][0]] = [int(y_center/125), int(x_center/125)]
     
     cv2.aruco.drawDetectedMarkers(img, marker_corners)
     
     return all_arucos
+
+checkerboard = Board()
+
+checkerboard.get_piece(5, 0).make_king()
 
 pipeline = rs.pipeline()
 config = rs.config()
@@ -106,7 +111,14 @@ try:
         
         all_arucos = findAruco(output)
         
-        print(all_arucos)
+        checkerboard.update_board(all_arucos)
+        print(" ")
+        checkerboard.print_board()
+        
+        # for id in all_arucos:
+        #     print(all_arucos[id][0])
+        
+        # print(all_arucos)
         
         # cv2.imshow("Image", color_image)
         cv2.imshow("Output", output)

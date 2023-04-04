@@ -20,4 +20,4 @@ class Piece:
         self.col = col
     
     def __repr__(self):
-        return str(self.id)
+        return str(self.id)+" "+str(self.king)
