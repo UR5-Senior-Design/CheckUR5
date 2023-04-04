@@ -32,6 +32,13 @@ class Robot:
         except:
             print(f"Robot is not connected")
     
+    # clean up when we're done with robot
+    def __del__(self):
+        print("Destructor for Robot called. Closing Arduino port, disconnecting robot and deleting object.")
+        self.arduino.close()
+        self.rtde_c.disconnect()
+        self.rtde_r.disconnect()
+    
     # magnet functions
     # send a message to the arduino
     def sendMsg(self, msg):
@@ -42,11 +49,42 @@ class Robot:
     def turnMagnetOn(self):
         msg = "Magnet ON"
         self.sendMsg(msg)
+        
+        # wait until magnet is on before leaving the function, timeout after 10 seconds
+        start = time()
+        while True:
+            received_msg = self.arduino.readline()
+            received_msg.rstrip("\n")
+            
+            end = time()
+            time_elapsed = end-start
+            time_elapsed.round(0)
+            if received_msg == "Magnet is currently ON" or time_elapsed == 10:
+                print(f"Received Arduino message: {received_msg}")
+                break;
+        
+        return
+            
     
     # send message to turn magnet off
     def turnMagnetOff(self):
         msg = "Magnet OFF"
         self.sendMsg(msg)
+        
+        # wait until magnet is on before leaving the function, timeout after 10 seconds
+        start = time()
+        while True:
+            received_msg = self.arduino.readline()
+            received_msg.rstrip("\n")
+            
+            end = time()
+            time_elapsed = end-start
+            time_elapsed.round(0)
+            if received_msg == "Magnet is currently OFF" or time_elapsed == 10:
+                print(f"Received Arduino message: {received_msg}")
+                break;
+        
+        return
         
     # movement functions
     # target is a tuple (row, col) designating the square position on the board to move to

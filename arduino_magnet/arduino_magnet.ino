@@ -17,13 +17,12 @@ void setup(){
 
 //the loop functions runs over and over again forever
 void loop(){
-    
+    //read magnet pin input
+    magnet_val = digitalRead(MAGNET_PIN);
+
     //check to see if arduino has recieved any messages & respond accordingly
     if(Serial.available() > 0)
     {
-        //read magnet pin input
-        magnet_val = digitalRead(MAGNET_PIN);
-
         //read in request
         String message = Serial.readString();
         message.trim(); //get rid of any whitespace at end of string
@@ -38,7 +37,17 @@ void loop(){
         {
            digitalWrite(MAGNET_PIN,LOW); //turn the electromagent off by making the voltage LOQ
         }
-        delay(5000); //wait for 5 seconds
-
+        delay(5000);
     }
+
+    // send messages to the PC indicating status of the magnet
+    if(magnet_val == HIGH)
+    {
+        Serial.println("Magnet is currently ON");
+    }
+    else
+    {
+        Serial.println("Magnet is currently OFF");
+    }
+    delay(1);
 }
