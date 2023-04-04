@@ -25,6 +25,11 @@ class Robot:
         # UR5 robot arm interface for controlling and receiving robot arm information
         self.rtde_c = rtde_control.RTDEControlInterface(robot_ip)
         self.rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
+        
+        if self.rtde_c.isConnected() and self.rtde_r.isConnected():
+            print(f"Robot is connected.")
+        else:
+            print(f"Robot is not connected")
     
     # magnet functions
     # send a message to the arduino
@@ -43,9 +48,10 @@ class Robot:
         self.sendMsg(msg)
         
     # movement functions
-    # destination is a string ("A1", "A2", "D6", etc.)
-    # return the base position list of the coordinate square
-    def get_position(self, destination):
+    # target is a tuple (row, col) designating the square position on the board to move to
+    # the position is calculated based on the origin position (0,0)/TOP_LEFT
+    # return the base position list [x, y, z, rx, ry, rz] of the target 
+    def get_position(self, target):
         X = TOP_LEFT["x"]
         Y = TOP_LEFT["y"]
         Z = TOP_LEFT["z"]
@@ -53,15 +59,15 @@ class Robot:
         RadY = TOP_LEFT["ry"]
         RadZ = TOP_LEFT["rz"]
 
-        if not destination[0] == "A":
-            diff = (ord(destination[0])-ord("A")) * MVMT_DIFF
+        if target[0] != 0:
+            diff = (target[0]) * MVMT_DIFF
             val = ord("A")
-            print(f"X difference: {ord(destination[0])}-{val} = {diff}")
+            print(f"X difference: {target[0]}-{val} = {diff}")
             Y += diff
-        if not destination[1] == "1":   
-            diff = (ord(destination[1])-ord("1")) * MVMT_DIFF
+        if target[1] != 0:   
+            diff = (target[1]) * MVMT_DIFF
             val = ord("1")
-            print(f"Y difference: {ord(destination[1])}-{val} = {diff}")
+            print(f"Y difference: {target[1]}-{val} = {diff}")
             X -= diff
         
         new_pos = [X, Y, Z, RadX, RadY, RadZ]
@@ -80,24 +86,31 @@ class Robot:
 
         return
 
-    # destination/target is a base position list: [x, y, z, rx, ry, rz]
-    # go to the target position where robot arm will pick up piece
+    # target is a tuple (row, col) designating the square position on the board to grab the piece
+    # go to the target position where robot arm will pick up piece and pick up the piece
     def grab_piece(self, target):
-        hover_pos = target.copy()
+        pos = self.get_position(target)
+        
+        hover_pos = pos.copy()
         hover_pos[2] += HOVER_DIFF
         
         self.rtde_c.moveL(hover_pos, SPEED, ACCELERATION)
-        self.rtde_c.moveL(target, SPEED, ACCELERATION)
+        self.rtde_c.moveL(pos, SPEED, ACCELERATION)
         
-        self.check_arrival(self, target)
+        self.check_arrival(pos)
         
         # TURN ON THE MAGNET
         self.turnMagnetOn()
         # TODO: check for whether magnet is actually on instead of doing a delay
         time.sleep(1) # give magnet time to turn on
 
-    # go to the target position where robot arm will drop piece
+    # target is a tuple (row, col) designating the square position on the board to drop the piece
+    # this function assumes that the robot arm has already picked up a piece/at the grabbed piece position
+    # go to the target position where robot arm will drop piece and drop it
     def drop_piece(self, target):
+        pos = self.get_position(target)
+        
+        # assuming robot arm has already grabbed piece
         current_pos = self.rtde_r.getActualTCPPose()
         
         hover_pos1 = current_pos.copy()
@@ -105,13 +118,13 @@ class Robot:
         
         self.rtde_c.moveL(hover_pos1, SPEED, ACCELERATION)
         
-        hover_pos2 = target.copy()
+        hover_pos2 = pos.copy()
         hover_pos2[2] += HOVER_DIFF
         
         self.rtde_c.moveL(hover_pos2, SPEED, ACCELERATION)
-        self.rtde_c.moveL(target, SPEED, ACCELERATION)
+        self.rtde_c.moveL(pos, SPEED, ACCELERATION)
         
-        self.check_arrival(target)
+        self.check_arrival(pos)
         
         # TURN OFF THE MAGNET
         self.turnMagnetOff()
