@@ -23,12 +23,13 @@ class Robot:
         self.arduino = serial.Serial(port=arduino_port, baudrate=9600, timeout=0)
         
         # UR5 robot arm interface for controlling and receiving robot arm information
-        self.rtde_c = rtde_control.RTDEControlInterface(robot_ip)
-        self.rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
+        try:
+            self.rtde_c = rtde_control.RTDEControlInterface(robot_ip)
+            self.rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
         
-        if self.rtde_c.isConnected() and self.rtde_r.isConnected():
-            print(f"Robot is connected.")
-        else:
+            if self.rtde_c.isConnected() and self.rtde_r.isConnected():
+                print(f"Robot is connected.")
+        except:
             print(f"Robot is not connected")
     
     # magnet functions
@@ -113,16 +114,18 @@ class Robot:
         # assuming robot arm has already grabbed piece
         current_pos = self.rtde_r.getActualTCPPose()
         
+        # raise arm up
         hover_pos1 = current_pos.copy()
         hover_pos1[2] += HOVER_DIFF
         
         self.rtde_c.moveL(hover_pos1, SPEED, ACCELERATION)
         
+        # hover over target position
         hover_pos2 = pos.copy()
         hover_pos2[2] += HOVER_DIFF
         
         self.rtde_c.moveL(hover_pos2, SPEED, ACCELERATION)
-        self.rtde_c.moveL(pos, SPEED, ACCELERATION)
+        self.rtde_c.moveL(pos, SPEED, ACCELERATION) # move down to drop piece
         
         self.check_arrival(pos)
         
