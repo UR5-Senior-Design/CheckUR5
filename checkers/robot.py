@@ -12,8 +12,8 @@ HOME_POS = (0.20425, -0.13615, 0.03746, 1.848, -2.428, 0.086) # robot arm restin
 BOX_POS = (0.23268, 0.20282, 0.09428, 2.930, -0.969, 0.018) # collection box position for robot arm to drop pieces to
 
 # robot arm speed and acceleration
-SPEED = 0.1
-ACCELERATION = 0.1
+SPEED = 1.0
+ACCELERATION = 0.25
 
 # a robot class that you can create to handle all movements of the robot for the checkers game and also the magnet/arduino communications
 # robot arm positions for this class is based off of the Base position
@@ -50,20 +50,8 @@ class Robot:
         msg = "Magnet ON"
         self.sendMsg(msg)
         
-        # wait until magnet is on before leaving the function, timeout after 10 seconds
-        start = time()
-        while True:
-            received_msg = self.arduino.readline()
-            received_msg.rstrip("\n")
-            
-            end = time()
-            time_elapsed = end-start
-            time_elapsed.round(0)
-            if received_msg == "Magnet is currently ON" or time_elapsed == 10:
-                print(f"Received Arduino message: {received_msg}")
-                break;
-        
-        return
+        # check status of the magnet
+        self.check_magnet(msg)
             
     
     # send message to turn magnet off
@@ -71,20 +59,32 @@ class Robot:
         msg = "Magnet OFF"
         self.sendMsg(msg)
         
-        # wait until magnet is on before leaving the function, timeout after 10 seconds
-        start = time()
-        while True:
-            received_msg = self.arduino.readline()
-            received_msg.rstrip("\n")
-            
-            end = time()
-            time_elapsed = end-start
-            time_elapsed.round(0)
-            if received_msg == "Magnet is currently OFF" or time_elapsed == 10:
-                print(f"Received Arduino message: {received_msg}")
-                break;
+        # check status of the magnet
+        self.check_magnet(msg)
+                
+    # check if the magnet has turned on/off based on messages received from the Arduino
+    # msg is a string supplied to validated the arduino message received against       
+    def check_magnet(self, msg):
+        timeout = 10 # timeout after 10 seconds
         
-        return
+        # wait until magnet is on before leaving the function, timeout after 10 seconds
+        start = time.time()
+        while True:
+            # wait until a message is sent
+            if self.arduino.inWaiting() != 0:
+                packet = self.arduino.readline()
+                received_msg = packet.decode('utf-8')
+                received_msg = received_msg.strip("\r\n")
+                
+                end = time.time()
+                time_elapsed = end-start
+                time_elapsed = round(time_elapsed, 0)
+                
+                if received_msg == msg or time_elapsed >= timeout:
+                    print(f"\nReceived message from Arduino: {received_msg}")
+                    print(f"Elapsed time since message to turn magnet off sent: {time_elapsed}\n")
+                    break;
+        
         
     # movement functions
     # target is a tuple (row, col) designating the square position on the board to move to

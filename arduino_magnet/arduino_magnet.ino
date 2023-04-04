@@ -31,23 +31,23 @@ void loop(){
 
         if(message == MAGNET_ON)
         {
-          digitalWrite(MAGNET_PIN,HIGH); //turn the electromagnet on (HIGH Is the voltage level)   
+            digitalWrite(MAGNET_PIN,HIGH); //turn the electromagnet on (HIGH Is the voltage level)   
         }
         else if(message == MAGNET_OFF)
         {
-           digitalWrite(MAGNET_PIN,LOW); //turn the electromagent off by making the voltage LOQ
+            digitalWrite(MAGNET_PIN,LOW); //turn the electromagent off by making the voltage LOQ
         }
-        delay(5000);
     }
 
+    
     // send messages to the PC indicating status of the magnet
     if(magnet_val == HIGH)
     {
-        Serial.println("Magnet is currently ON");
+        Serial.println(MAGNET_ON);
     }
     else
     {
-        Serial.println("Magnet is currently OFF");
+        Serial.println(MAGNET_OFF);
     }
-    delay(1);
+    delay(1000); //delay for 1 second
 }
