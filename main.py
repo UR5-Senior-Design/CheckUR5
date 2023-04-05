@@ -12,5 +12,8 @@ from checkers.game import Game
 
 game = Game()
 
-game.select(2, 1)
-game.select(3, 2)
+#game.select(2, 1)
+#game.select(7, 9)
+
+game.robot.grab_piece((6, 7))
+game.robot.drop_in_box()

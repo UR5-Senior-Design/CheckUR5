@@ -8,8 +8,10 @@ TOP_LEFT = { "x": 0.79556, "y": -0.22876, "z": 0.015, "rx": 2.394, "ry": -2.011,
 MVMT_DIFF = 0.06378 # the distance between the center points of each square
 HOVER_DIFF = 0.030 # the difference in z axis to hover over a piece
 
-HOME_POS = (0.20425, -0.13615, 0.03746, 1.848, -2.428, 0.086) # robot arm resting/home position
-BOX_POS = (0.23268, 0.20282, 0.09428, 2.930, -0.969, 0.018) # collection box position for robot arm to drop pieces to
+# 0.03746
+
+HOME_POS = (0.20425, -0.13615, 0.11250, 1.848, -2.428, 0.086) # robot arm resting/home position
+BOX_POS = (0.14225, 0.20481, 0.11250, 3.010, -0.446, 0.135) # collection box position for robot arm to drop pieces to
 
 # robot arm speed and acceleration
 SPEED = 1.0
@@ -140,8 +142,6 @@ class Robot:
         
         # TURN ON THE MAGNET
         self.turnMagnetOn()
-        # TODO: check for whether magnet is actually on instead of doing a delay
-        time.sleep(1) # give magnet time to turn on
 
     # target is a tuple (row, col) designating the square position on the board to drop the piece
     # this function assumes that the robot arm has already picked up a piece/at the grabbed piece position
@@ -169,11 +169,29 @@ class Robot:
         
         # TURN OFF THE MAGNET
         self.turnMagnetOff()
-        # TODO: check for whether magnet is actually on instead of doing a delay
-        time.sleep(1) # give magnet time to turn off
         
         # go to resting position
         self.rtde_c.moveL(hover_pos2, SPEED, ACCELERATION)
         self.rtde_c.moveL(HOME_POS, SPEED, ACCELERATION)
     
-    
+    # drop the piece into the collection box at the specified BOX_POS position
+    # this function assumes that the robot arm has already picked up a piece/at the grabbed piece position
+    def drop_in_box(self):
+        # assuming robot arm has already grabbed piece
+        current_pos = self.rtde_r.getActualTCPPose()
+        
+        # raise arm up
+        hover_pos1 = current_pos.copy()
+        hover_pos1[2] = BOX_POS[2] # use the same z height as the drop off position
+        
+        self.rtde_c.moveL(hover_pos1, SPEED, ACCELERATION)
+        
+        self.rtde_c.moveL(BOX_POS, SPEED, ACCELERATION) # move down to drop piece
+        
+        self.check_arrival(BOX_POS)
+        
+        # TURN OFF THE MAGNET
+        self.turnMagnetOff()
+        
+        # go to resting position
+        self.rtde_c.moveL(HOME_POS, SPEED, ACCELERATION)
