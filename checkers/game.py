@@ -78,3 +78,10 @@ class Game:
             self.turn = "orange"
         else:
             self.turn = "blue"
+
+    def get_board(self):
+        return self.board
+    
+    def ai_move(self, board): #when ai makes move it will return new board after move
+        self.board = board    #updates game with new board object
+        self.change_turn()
