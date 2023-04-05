@@ -1,12 +1,12 @@
 from checkers.board import Board
 
 class Game:
-    def __init__(self, win):
+    def __init__(self): #(self, win):
         self._init()
-        self.win = win
+        # self.win = win
     
     def update(self):
-        self.board.draw(self.win)
+        # self.board.draw(self.win)
         self.draw_valid_moves(self.valid_moves)
 
     def _init(self):
@@ -40,7 +40,7 @@ class Game:
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
         if self.selected and piece == 0 and (row, col) in self.valid_moves: #if we selected a piece that is 0 and if the row/col we selected is not a piece
-            self.board.move(self.selected, row, col)
+            self.board.move_piece(self.selected, row, col)
             skipped = self.valid_moves[(row, col)]
             if skipped:
                 self.board.remove(skipped)
@@ -56,3 +56,10 @@ class Game:
             self.turn = "orange"
         else:
             self.turn = "blue"
+
+    def get_board(self):
+        return self.board
+    
+    def ai_move(self, board): #when ai makes move it will return new board after move
+        self.board = board    #updates game with new board object
+        self.change_turn()
