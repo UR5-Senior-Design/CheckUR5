@@ -98,12 +98,12 @@ try:
         # depthwriter.write(depth_colormap)
         
         width, height = 1000, 1000
-        point1 = np.float32([[651,97], [545, 706], [1452, 703], [1319, 92]])
+        point1 = np.float32([[561,110], [399, 917], [1485, 928], [1355, 105]])
 
         point2 = np.float32([[0, 0], [0, height-1], [width-1, height-1], [width-1, 0]])
         matrix = cv2.getPerspectiveTransform(point1, point2)
         output = cv2.warpPerspective(color_image, matrix, (width, height)) 
-        output = cv2.rotate(output, cv2.ROTATE_90_CLOCKWISE)
+        output = cv2.rotate(output, cv2.ROTATE_180)
         kernel = np.array([[0, -1, 0],
                            [-1, 5,-1],
                            [0, -1, 0]])
