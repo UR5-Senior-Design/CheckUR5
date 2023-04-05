@@ -31,7 +31,18 @@ class Board:
     def print_board(self):
         for row in self.board:
             print(row)
-            
+
+    def evaluate(self): #gives score of the board & help AI decide what move to make (goal = be a king)
+        return self.orange_left - self.blue_left + (self.orange_kings * 0.5 - self.blue_kings * 0.5)
+    
+    def get_all_pieces(self, color): #returns all the pieces of a certain color
+        pieces = []
+        for row in self.board: #loop through all rows
+            for piece in row: #loop through all pieces
+                if piece != 0 and piece.color == color: #if color requested add to list
+                    pieces.append(piece)
+        return pieces
+    
     def move_piece(self, piece, row, col):
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
@@ -91,7 +102,7 @@ class Board:
             if left < 0:
                 break
             
-            current = self.get_piece(r, left)
+            current = self.get_piece(r, left) #his code has self.board[r][left]
             if current == 0:
                 if skipped and not last:
                     break
@@ -126,7 +137,7 @@ class Board:
             if right >= 8:
                 break
             
-            current = self.get_piece(r, right)
+            current = self.get_piece(r, right) #his code has self.board[r][right]
             if current == 0:
                 if skipped and not last:
                     break
