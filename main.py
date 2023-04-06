@@ -2,6 +2,8 @@ from checkers.game import Game
 from checkers.minimax.algorithm import minimax
 import time
 
+MINIMAX_DEPTH = 4
+
 # start running the checkers game from here
 def main():
     run = True # set state of the game
@@ -25,7 +27,7 @@ def main():
 
         # robot's turn
         if game.turn == "orange":
-            value, new_board = minimax(game.get_board(), 4, "orange", game)
+            value, new_board = minimax(game.get_board(), MINIMAX_DEPTH, "orange", game)
 
             printf("UR5 Robot's turn actions: \n")
             game.ai_move(new_board) # set robot's move decision and move robot
