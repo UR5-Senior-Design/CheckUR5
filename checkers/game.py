@@ -117,7 +117,7 @@ class Game:
                     moved[key]["new"] = (new_piece.row, new_piece.col)
         
         # print list of pieces that moved
-        print(f"AI Play - pieces that changed: {moved}")
+        print(f"\tAI Play - pieces that changed: {moved}")
         
         # physically move all the pieces from the old board to match the state of the new board
         # move all orange pieces first (there should only be one orange piece moved)
@@ -131,7 +131,7 @@ class Game:
                 self.robot.grab_piece(old_pos)
                 self.robot.drop_piece(new_pos)
 
-                print(f"\tMoved orange piece {key_id} from {old_pos} to {new_pos}\n")
+                print(f"\tMoved orange piece {key_id} from {old_pos} to {new_pos}")
         
         # move all of the blue pieces
         # if the differing piece is a "blue" player, that means we've eaten/skipped over a piece, so move the robot to drop those pieces into the collection box
@@ -144,7 +144,7 @@ class Game:
                 self.robot.grab_piece(old_pos)
                 self.robot.drop_in_box() 
 
-                print(f"\tRemoved blue piece {key_id} from {old_pos}\n")
+                print(f"\tRemoved blue piece {key_id} from {old_pos}")
         
         self.board = new_board    #updates game with new board object
         self.change_turn()
