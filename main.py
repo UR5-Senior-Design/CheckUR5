@@ -1,32 +1,50 @@
-
-from checkers.board import Board
 from checkers.game import Game
+from checkers.minimax.algorithm import minimax
+import time
 
-all_arucos = {13: [3, 4]}
+MINIMAX_DEPTH = 4
 
-checkerboard = Board()
-print("old board:")
-checkerboard.print_board()
+# start running the checkers game from here
+def main():
+    run = True # set state of the game
+    game = Game()
 
-# checkerboard.piece_db[12].make_king()
+    print(f"Welcome to CheckUR5!\n\nHere are the commands you can type and send:\n")
+    print(f"\tStart - start the game\n\tReset - reset the game\n\tQuit - quit the game")
 
-checkerboard.get_piece(5, 0).make_king()
+    # TODO: add interaction to start the game
 
-print("new king board:")
-checkerboard.print_board()
+    while run:
+        winner = game.get_winner()
+        if winner != None:
+            if winner == "orange":
+                print(f"The UR5 Robot won the game!")
+            else:
+                print(f"The Player won the game!")
+            
+            # TODO: maybe give option to reset and start the game again here???
+            run = False
+        # robot's turn
+        elif game.turn == "orange":
+            value, new_board = minimax(game.get_board(), MINIMAX_DEPTH, "orange", game)
 
-checkerboard.update_board(all_arucos)
+            print("UR5 Robot's turn actions: \n")
+            game.ai_move(new_board) # set robot's move decision and move robot
+        # human player's turn
+        elif game.turn == "blue":
+            # TODO: add turn timeout after 20 seconds
+            # timeout = 20 # 20 seconds to make a turn
+            player_input = input("Player's turn, press A to end turn")
 
-print("updated board")
-checkerboard.print_board()
+            if player_input == "A":
+                pass
+                # TODO: some computer vision logic here maybe?
+                # maybe i could get rid of the checking for player_input from keyboard and we could just check if board in a changed and steady state?
 
-# piece = checkerboard.get_piece(0,1)
+            # indicate the moves/removes human has made
+            print(f"Player's turn actions: \n")
+        
+        # TODO: add interaction to reset the game
+        # TODO: add interaction to quit the game
 
-# # checkerboard.move_piece(piece, 4, 3)
-
-# checkerboard.print_board()
-
-# game = Game()
-
-# game.select(2, 1)
-# game.select(3, 2)
+main()

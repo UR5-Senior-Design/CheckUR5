@@ -17,14 +17,14 @@ def turnMagnetOff(arduino):
 
 # send message to turn magnet off
 
-# arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=0)
-# time.sleep(2)
+arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=0)
+time.sleep(2)
 
-# while(True):
-#     turnMagnetOn(arduino)
+while(True):
+    turnMagnetOn(arduino)
 
-#     time.sleep(5)
+    time.sleep(5)
 
-#     turnMagnetOff(arduino)
+    turnMagnetOff(arduino)
     
-#     time.sleep(5)
+    time.sleep(5)

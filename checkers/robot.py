@@ -8,12 +8,14 @@ TOP_LEFT = { "x": 0.79556, "y": -0.22876, "z": 0.015, "rx": 2.394, "ry": -2.011,
 MVMT_DIFF = 0.06378 # the distance between the center points of each square
 HOVER_DIFF = 0.030 # the difference in z axis to hover over a piece
 
-HOME_POS = (0.20425, -0.13615, 0.03746, 1.848, -2.428, 0.086) # robot arm resting/home position
-BOX_POS = (0.23268, 0.20282, 0.09428, 2.930, -0.969, 0.018) # collection box position for robot arm to drop pieces to
+# 0.03746
+
+HOME_POS = (0.20425, -0.13615, 0.11250, 1.848, -2.428, 0.086) # robot arm resting/home position
+BOX_POS = (0.14225, 0.20481, 0.11250, 3.010, -0.446, 0.135) # collection box position for robot arm to drop pieces to
 
 # robot arm speed and acceleration
-SPEED = 0.1
-ACCELERATION = 0.1
+SPEED = 1.0
+ACCELERATION = 0.25
 
 # a robot class that you can create to handle all movements of the robot for the checkers game and also the magnet/arduino communications
 # robot arm positions for this class is based off of the Base position
@@ -23,13 +25,22 @@ class Robot:
         self.arduino = serial.Serial(port=arduino_port, baudrate=9600, timeout=0)
         
         # UR5 robot arm interface for controlling and receiving robot arm information
-        self.rtde_c = rtde_control.RTDEControlInterface(robot_ip)
-        self.rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
+        try:
+            self.rtde_c = rtde_control.RTDEControlInterface(robot_ip)
+            self.rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
         
-        if self.rtde_c.isConnected() and self.rtde_r.isConnected():
-            print(f"Robot is connected.")
-        else:
+            if self.rtde_c.isConnected() and self.rtde_r.isConnected():
+                print(f"Robot is connected.")
+        except:
             print(f"Robot is not connected")
+    
+    # clean up when we're done with robot
+    def __del__(self):
+        print("Destructor for Robot called. Closing Arduino port, disconnecting robot and deleting object.")
+        self.arduino.close()
+        self.rtde_c.stopScript()
+        self.rtde_c.disconnect()
+        self.rtde_r.disconnect()
     
     # magnet functions
     # send a message to the arduino
@@ -41,11 +52,42 @@ class Robot:
     def turnMagnetOn(self):
         msg = "Magnet ON"
         self.sendMsg(msg)
+        
+        # check status of the magnet
+        self.check_magnet(msg)
+            
     
     # send message to turn magnet off
     def turnMagnetOff(self):
         msg = "Magnet OFF"
         self.sendMsg(msg)
+        
+        # check status of the magnet
+        self.check_magnet(msg)
+                
+    # check if the magnet has turned on/off based on messages received from the Arduino
+    # msg is a string supplied to validated the arduino message received against       
+    def check_magnet(self, msg):
+        timeout = 10 # timeout after 10 seconds
+        
+        # wait until magnet is on before leaving the function, timeout after 10 seconds
+        start = time.time()
+        while True:
+            # wait until a message is sent
+            if self.arduino.inWaiting() != 0:
+                packet = self.arduino.readline()
+                received_msg = packet.decode('utf-8')
+                received_msg = received_msg.strip("\r\n")
+                
+                end = time.time()
+                time_elapsed = end-start
+                time_elapsed = round(time_elapsed, 0)
+                
+                if received_msg == msg or time_elapsed >= timeout:
+                    print(f"\nReceived message from Arduino: {received_msg}")
+                    print(f"Elapsed time since message to turn magnet off sent: {time_elapsed}\n")
+                    break;
+        
         
     # movement functions
     # target is a tuple (row, col) designating the square position on the board to move to
@@ -101,8 +143,6 @@ class Robot:
         
         # TURN ON THE MAGNET
         self.turnMagnetOn()
-        # TODO: check for whether magnet is actually on instead of doing a delay
-        time.sleep(1) # give magnet time to turn on
 
     # target is a tuple (row, col) designating the square position on the board to drop the piece
     # this function assumes that the robot arm has already picked up a piece/at the grabbed piece position
@@ -113,26 +153,46 @@ class Robot:
         # assuming robot arm has already grabbed piece
         current_pos = self.rtde_r.getActualTCPPose()
         
+        # raise arm up
         hover_pos1 = current_pos.copy()
         hover_pos1[2] += HOVER_DIFF
         
         self.rtde_c.moveL(hover_pos1, SPEED, ACCELERATION)
         
+        # hover over target position
         hover_pos2 = pos.copy()
         hover_pos2[2] += HOVER_DIFF
         
         self.rtde_c.moveL(hover_pos2, SPEED, ACCELERATION)
-        self.rtde_c.moveL(pos, SPEED, ACCELERATION)
+        self.rtde_c.moveL(pos, SPEED, ACCELERATION) # move down to drop piece
         
         self.check_arrival(pos)
         
         # TURN OFF THE MAGNET
         self.turnMagnetOff()
-        # TODO: check for whether magnet is actually on instead of doing a delay
-        time.sleep(1) # give magnet time to turn off
         
         # go to resting position
         self.rtde_c.moveL(hover_pos2, SPEED, ACCELERATION)
         self.rtde_c.moveL(HOME_POS, SPEED, ACCELERATION)
     
-    
+    # drop the piece into the collection box at the specified BOX_POS position
+    # this function assumes that the robot arm has already picked up a piece/at the grabbed piece position
+    def drop_in_box(self):
+        # assuming robot arm has already grabbed piece
+        current_pos = self.rtde_r.getActualTCPPose()
+        
+        # raise arm up
+        hover_pos1 = current_pos.copy()
+        hover_pos1[2] = BOX_POS[2] # use the same z height as the drop off position
+        
+        self.rtde_c.moveL(hover_pos1, SPEED, ACCELERATION)
+        
+        self.rtde_c.moveL(BOX_POS, SPEED, ACCELERATION) # move down to drop piece
+        
+        self.check_arrival(BOX_POS)
+        
+        # TURN OFF THE MAGNET
+        self.turnMagnetOff()
+        
+        # go to resting position
+        self.rtde_c.moveL(HOME_POS, SPEED, ACCELERATION)
