@@ -37,7 +37,7 @@ def main():
             player_input = input("Player's turn, press A to end turn")
 
             if player_input == "A":
-                # TODO: some computer vision update logic here to update board?
+                # TODO: some computer vision logic here maybe?
                 # maybe i could get rid of the checking for player_input from keyboard and we could just check if board in a changed and steady state?
 
             # indicate the moves/removes human has made
