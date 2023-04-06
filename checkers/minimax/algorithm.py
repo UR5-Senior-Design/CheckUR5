@@ -6,7 +6,7 @@ def minimax(position, depth, max_player, game):
     #max_player = (bool) are we maximizing(TRUE) or are we minimizing(FALSE)
     #game = (game object) will allow us to call the game functions
 
-    if depth == 0 or position.winner() != None: #at last node of tree OR the game is over
+    if depth == 0 or position.check_winner() != None: #at last node of tree OR the game is over
         return position.evaluate(), position #get position & its evaluation
     
     if max_player: #goal = to maximize score

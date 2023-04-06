@@ -25,7 +25,7 @@ class Game:
         self.valid_moves = {}
         self.robot = Robot(arduino_port='/dev/ttyUSB0', robot_ip="192.168.1.102")
 
-    def winner(self):
+    def get_winner(self):
         return self.board.winner()
 
     def reset(self):
@@ -124,16 +124,26 @@ class Game:
         for key in moved:
             color = key[1]
             if color == "orange":
-                self.robot.grab_piece(moved[key]["old"])
-                self.robot.drop_piece(moved[key]["new"])
+                key_id = key[0]
+                old_pos = moved[key]["old"]
+                new_pos = moved[key]["new"]
+                self.robot.grab_piece(old_pos)
+                self.robot.drop_piece(new_pos)
+
+                print(f"\tMoved orange piece {key_id} from {old_pos} to {new_pos}\n")
         
         # move all of the blue pieces
         # if the differing piece is a "blue" player, that means we've eaten/skipped over a piece, so move the robot to drop those pieces into the collection box
         for key in moved:
             color = key[1]
             if color == "blue":
+                key_id = key[0]
+                old_pos = moved[key]["old"]
+
                 self.robot.grab_piece(moved[key]["old"])
                 self.robot.drop_in_box() 
+
+                print(f"\tRemoved blue piece {key_id} from {old_pos}\n")
         
         self.board = new_board    #updates game with new board object
         self.change_turn()

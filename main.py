@@ -1,37 +1,48 @@
-from checkers.board import Board
 from checkers.game import Game
 from checkers.minimax.algorithm import minimax
+import time
 
+# start running the checkers game from here
+def main():
+    run = True # set state of the game
+    game = Game()
 
-game = Game()
+    print(f"Welcome to CheckUR5!\n\nHere are the commands you can type and send:\n")
+    print(f"\tStart - start the game\n\tReset - reset the game\n\tQuit - quit the game")
 
-new_board = Board()
+    # TODO: add interaction to start the game
 
-new_board.print_board()
-print("\n")
+    while run:
+        winner = game.get_winner()
+        if winner != None:
+            if winner == "orange":
+                print(f"The UR5 Robot won the game!")
+            else:
+                print(f"The Player won the game!")
+            
+            # TODO: maybe give option to reset and start the game again here???
+            run = False
 
-# checkerboard.move_piece(piece, 4, 3)
+        # robot's turn
+        if game.turn == "orange":
+            value, new_board = minimax(game.get_board(), 4, "orange", game)
 
-# checkerboard.print_board()
+            printf("UR5 Robot's turn actions: \n")
+            game.ai_move(new_board) # set robot's move decision and move robot
+        # human player's turn
+        elif game.turn == "blue":
+            # TODO: add turn timeout after 20 seconds
+            # timeout = 20 # 20 seconds to make a turn
+            player_input = input("Player's turn, press A to end turn")
 
-value, new_board = minimax(game.get_board(), 2, "orange", game)
-new_board.print_board()
-print("\n")
+            if player_input == "A":
+                # TODO: some computer vision update logic here to update board?
+                # maybe i could get rid of the checking for player_input from keyboard and we could just check if board in a changed and steady state?
 
-game.ai_move(new_board)
+            # indicate the moves/removes human has made
+            print(f"Player's turn actions: \n")
+        
+        # TODO: add interaction to reset the game
+        # TODO: add interaction to quit the game
 
-
-#lol i thought that this would move the human piece but it didnt!
-#the computer do be making it's own moves tho
-# piece = checkerboard.get_piece(5,4)
-# new_board.move_piece(piece, 4, 5)
-
-# value, new_board = minimax(game.get_board(), 2, "orange", game)
-# game.ai_move(new_board)
-
-# new_board.print_board()
-
-#game.select(5,4)
-#game.select(4,5)
-#new_board.print_board()
-#print("\n")
+main()

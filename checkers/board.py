@@ -56,7 +56,7 @@ class Board:
             piece.make_king()
             self.blue_kings += 1
                 
-    def winner(self):
+    def check_winner(self):
         if self.blue_left <= 0:
             return "orange"
         elif self.orange_left <= 0:
