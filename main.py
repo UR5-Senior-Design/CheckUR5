@@ -28,7 +28,7 @@ def main():
         elif game.turn == "orange":
             value, new_board = minimax(game.get_board(), MINIMAX_DEPTH, "orange", game)
 
-            printf("UR5 Robot's turn actions: \n")
+            print("UR5 Robot's turn actions: \n")
             game.ai_move(new_board) # set robot's move decision and move robot
         # human player's turn
         elif game.turn == "blue":
@@ -37,6 +37,7 @@ def main():
             player_input = input("Player's turn, press A to end turn")
 
             if player_input == "A":
+                pass
                 # TODO: some computer vision logic here maybe?
                 # maybe i could get rid of the checking for player_input from keyboard and we could just check if board in a changed and steady state?
 
