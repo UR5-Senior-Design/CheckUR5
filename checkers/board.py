@@ -35,11 +35,11 @@ class Board:
     def update_board(self, all_arucos):
         blue_count = orange_count = 0
         blue_k_count = orange_k_count = 0
-        self.board = []
+        new_board = []
         for row in range(8):
-            self.board.append([])
+            new_board.append([])
             for col in range(8):
-                self.board[row].append(0)
+                new_board[row].append(0)
         for id in all_arucos:
             if id > 0 and id <= 24:
                 if id < 13:
@@ -51,16 +51,17 @@ class Board:
                     if self.piece_db[id-1].king:
                         blue_k_count +=1
                 if all_arucos[id][0] % 2 == ((all_arucos[id][1] + 1) % 2):
-                    self.board[all_arucos[id][0]][all_arucos[id][1]] = self.piece_db[id-1]
+                    new_board[all_arucos[id][0]][all_arucos[id][1]] = self.piece_db[id-1]
         self.orange_left = orange_count
         self.blue_left = blue_count
         self.orange_kings = orange_k_count
         self.blue_kings = blue_k_count
+        self.board = new_board
         
-        print("Orange Count:",self.orange_left)
-        print("Blue Count:  ",self.blue_left)
-        print("Orange King Count:  ",self.orange_kings)
-        print("Blue King Count:    ",self.blue_kings)
+        # print("Orange Count:",self.orange_left)
+        # print("Blue Count:  ",self.blue_left)
+        # print("Orange King Count:  ",self.orange_kings)
+        # print("Blue King Count:    ",self.blue_kings)
     
     def print_board(self):
         for row in self.board:

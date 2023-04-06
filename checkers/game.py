@@ -26,7 +26,7 @@ class Game:
         self.robot = Robot(arduino_port='/dev/ttyUSB0', robot_ip="192.168.1.102")
 
     def get_winner(self):
-        return self.board.winner()
+        return self.board.check_winner()
 
     def reset(self):
         self._init()
@@ -147,4 +147,10 @@ class Game:
                 print(f"\tRemoved blue piece {key_id} from {old_pos}")
         
         self.board = new_board    #updates game with new board object
+        self.change_turn()
+    
+    def update_board(self, all_arucos):
+        self.board.print_board()
+        self.board.update_board(all_arucos)
+        self.board.print_board()
         self.change_turn()
