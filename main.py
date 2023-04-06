@@ -24,9 +24,8 @@ def main():
             
             # TODO: maybe give option to reset and start the game again here???
             run = False
-
         # robot's turn
-        if game.turn == "orange":
+        elif game.turn == "orange":
             value, new_board = minimax(game.get_board(), MINIMAX_DEPTH, "orange", game)
 
             printf("UR5 Robot's turn actions: \n")
