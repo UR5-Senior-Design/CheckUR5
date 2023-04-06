@@ -1,4 +1,3 @@
-
 from checkers.board import Board
 from checkers.game import Game
 from minimax.algorithm import minimax
