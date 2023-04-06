@@ -127,6 +127,7 @@ class Game:
                 key_id = key[0]
                 old_pos = moved[key]["old"]
                 new_pos = moved[key]["new"]
+                
                 self.robot.grab_piece(old_pos)
                 self.robot.drop_piece(new_pos)
 
@@ -140,7 +141,7 @@ class Game:
                 key_id = key[0]
                 old_pos = moved[key]["old"]
 
-                self.robot.grab_piece(moved[key]["old"])
+                self.robot.grab_piece(old_pos)
                 self.robot.drop_in_box() 
 
                 print(f"\tRemoved blue piece {key_id} from {old_pos}\n")
