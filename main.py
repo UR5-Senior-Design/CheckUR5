@@ -1,6 +1,6 @@
 from checkers.board import Board
 from checkers.game import Game
-from minimax.algorithm import minimax
+from checkers.minimax.algorithm import minimax
 
 
 game = Game()
@@ -15,10 +15,10 @@ print("\n")
 # checkerboard.print_board()
 
 value, new_board = minimax(game.get_board(), 2, "orange", game)
-game.ai_move(new_board)
-
 new_board.print_board()
 print("\n")
+
+game.ai_move(new_board)
 
 
 #lol i thought that this would move the human piece but it didnt!
@@ -31,7 +31,7 @@ print("\n")
 
 # new_board.print_board()
 
-game.select(5,4)
-game.select(4,5)
-new_board.print_board()
-print("\n")
+#game.select(5,4)
+#game.select(4,5)
+#new_board.print_board()
+#print("\n")

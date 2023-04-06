@@ -38,6 +38,7 @@ class Robot:
     def __del__(self):
         print("Destructor for Robot called. Closing Arduino port, disconnecting robot and deleting object.")
         self.arduino.close()
+        self.rtde_c.stopScript()
         self.rtde_c.disconnect()
         self.rtde_r.disconnect()
     
