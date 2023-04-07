@@ -3,6 +3,7 @@ from .piece import Piece
 class Board:
     def __init__(self):
         self.board = []
+        self.piece_db = []
         self.blue_left = self.orange_left = 12
         self.blue_kings = self.orange_kings = 0
         self.create_board()
@@ -11,6 +12,7 @@ class Board:
         return self.board[row][col]
     
     def create_board(self):
+        
         orange_ids = 1
         blue_ids = 13
         for row in range(8):
@@ -18,15 +20,48 @@ class Board:
             for col in range(8):
                 if col % 2 == ((row + 1) % 2):
                     if row < 3:
-                        self.board[row].append(Piece(row, col, orange_ids))
+                        self.piece_db.append(Piece(row, col, orange_ids))
+                        self.board[row].append(self.piece_db[orange_ids-1])
                         orange_ids += 1
                     elif row > 4:
-                        self.board[row].append(Piece(row, col, blue_ids))
+                        self.piece_db.append(Piece(row, col, blue_ids))
+                        self.board[row].append(self.piece_db[blue_ids-1])
                         blue_ids += 1
                     else:
                         self.board[row].append(0)
                 else:
                     self.board[row].append(0)
+    
+    def update_board(self, all_arucos):
+        blue_count = orange_count = 0
+        blue_k_count = orange_k_count = 0
+        new_board = []
+        for row in range(8):
+            new_board.append([])
+            for col in range(8):
+                new_board[row].append(0)
+        for id in all_arucos:
+            if id > 0 and id <= 24:
+                if id < 13:
+                    orange_count += 1
+                    if self.piece_db[id-1].king:
+                        orange_k_count +=1
+                else:
+                    blue_count += 1
+                    if self.piece_db[id-1].king:
+                        blue_k_count +=1
+                if all_arucos[id][0] % 2 == ((all_arucos[id][1] + 1) % 2):
+                    new_board[all_arucos[id][0]][all_arucos[id][1]] = self.piece_db[id-1]
+        self.orange_left = orange_count
+        self.blue_left = blue_count
+        self.orange_kings = orange_k_count
+        self.blue_kings = blue_k_count
+        self.board = new_board
+        
+        # print("Orange Count:",self.orange_left)
+        # print("Blue Count:  ",self.blue_left)
+        # print("Orange King Count:  ",self.orange_kings)
+        # print("Blue King Count:    ",self.blue_kings)
     
     def print_board(self):
         for row in self.board:

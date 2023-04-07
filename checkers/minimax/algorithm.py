@@ -1,4 +1,5 @@
 from copy import deepcopy #allows you to make a copy of an object & modify it without affecting the original & vice versa
+from checkers.piece import Piece
 
 def minimax(position, depth, max_player, game):
     #position = (board object) where we current position we are in
@@ -35,7 +36,9 @@ def minimax(position, depth, max_player, game):
     
 
 def simulate_move(piece, move, board, game, skip):
-    board.move_piece(piece, move[0], move[1])
+    # make sure it is not a 0 piece
+    if isinstance(piece, Piece):    
+        board.move_piece(piece, move[0], move[1])
     if skip:
         board.remove(skip) #skip is the piece to be "removed"
 

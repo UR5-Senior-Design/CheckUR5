@@ -58,7 +58,10 @@ class Game:
         is_valid = self.selected and piece == 0 and (row, col) in self.valid_moves
         print(f"In move selection with ({row}, {col}) {is_valid}")
         
-        if self.selected and piece == 0 and (row, col) in self.valid_moves: #if we selected a piece that is not empty/0 and if the row/col we selected is not a piece
+        #if we selected a piece that is not empty/0 and if the row/col we selected is not a piece
+        if self.selected and piece == 0 and (row, col) in self.valid_moves: 
+            print(f"Moving robot")
+            
             self.board.move_piece(self.selected, row, col)
             
             print(f"Move selected piece to: {row} {col}")
@@ -140,4 +143,12 @@ class Game:
                 print(f"\tRemoved blue piece {key_id} from {old_pos}")
         
         self.board = new_board    #updates game with new board object
+        self.change_turn()
+    
+    def update_board(self, all_arucos):
+        print("\nOld board")
+        self.board.print_board()
+        self.board.update_board(all_arucos)
+        print("\nNew board")
+        self.board.print_board()
         self.change_turn()
