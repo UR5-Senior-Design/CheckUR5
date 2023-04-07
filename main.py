@@ -16,7 +16,7 @@ def main():
         run = True
     elif (userInput == 'quit'):
         run = False
-    else: # lol this logic isn't fullproof idk how to make it better
+    else: # lol this logic isn't checking for bad commands after the else so it would just default to exit
         print(f"ERROR:Please enter a valid command!\n\nHere are the commands you can type and send:\n")
         userInput = input(f"\tstart - start the game\n\tquit - quit the game\n")
 
@@ -46,9 +46,7 @@ def main():
             if player_input == "A":
                 pass
                 # TODO: some computer vision logic here maybe?
-                # maybe i could get rid of the checking for player_input from keyboard and we could just check if board in a changed and steady state?
             elif player_input == "B":
-                pass
                 print("MORE GAME OPTIONS:")
                 player_input = input(f"\n\treset - reset the game\n\tquit - quit the game\n")
                 if player_input == "reset":
@@ -56,6 +54,7 @@ def main():
                     # TODO: add interaction to reset the game
                     # lol idk how to incorporate this
                 elif player_input == "quit":
+                    print(f"Thank you for playing! :)")
                     run = False
 
             # indicate the moves/removes human has made
