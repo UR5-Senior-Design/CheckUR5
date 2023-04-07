@@ -26,7 +26,7 @@ class Game:
         self.robot = Robot(arduino_port='/dev/ttyUSB0', robot_ip="192.168.1.102")
 
     def get_winner(self):
-        return self.board.winner()
+        return self.board.check_winner()
 
     def reset(self):
         self._init()
