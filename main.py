@@ -5,6 +5,8 @@ import cv2
 import pyrealsense2 as rs
 import numpy as np
 
+MINIMAX_DEPTH = 4
+
 def findAruco(img):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_250)
@@ -24,8 +26,6 @@ def findAruco(img):
     cv2.aruco.drawDetectedMarkers(img, marker_corners)
     
     return all_arucos
-
-MINIMAX_DEPTH = 4
 
 # start running the checkers game from here
 def main():
@@ -62,13 +62,16 @@ def main():
             elif game.turn == "orange":
                 value, new_board = minimax(game.get_board(), MINIMAX_DEPTH, "orange", game)
 
+                print(f"New board from Minimax:")
+                new_board.print_board()
+
                 print("UR5 Robot's turn actions: \n")
                 game.ai_move(new_board) # set robot's move decision and move robot
             # human player's turn
             elif game.turn == "blue":
                 # TODO: add turn timeout after 20 seconds
                 # timeout = 20 # 20 seconds to make a turn
-                player_input = input("Player's turn, press A to end turn")
+                player_input = input("Player's turn, press A to end turn: ")
 
                 if player_input == "A":
                     
