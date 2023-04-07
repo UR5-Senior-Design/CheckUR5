@@ -15,7 +15,7 @@ BOX_POS = (0.14225, 0.20481, 0.11250, 3.010, -0.446, 0.135) # collection box pos
 
 # robot arm speed and acceleration
 SPEED = 1.5 # default 1.0
-ACCELERATION = 0.25 # default 0.25
+ACCELERATION = 0.375 # default 0.25
 
 # a robot class that you can create to handle all movements of the robot for the checkers game and also the magnet/arduino communications
 # robot arm positions for this class is based off of the Base position
@@ -45,7 +45,7 @@ class Robot:
     # magnet functions
     # send a message to the arduino
     def sendMsg(self, msg):
-        print(f"Sending message to Arduino: {msg}")
+        print(f"\t\tSending message to Arduino: {msg}")
         self.arduino.write(str.encode(msg))
 
     # send message to turn magnet on
@@ -84,8 +84,8 @@ class Robot:
                 time_elapsed = round(time_elapsed, 0)
                 
                 if received_msg == msg or time_elapsed >= timeout:
-                    print(f"\nReceived message from Arduino: {received_msg}")
-                    print(f"Elapsed time since message to turn magnet off sent: {time_elapsed}\n")
+                    print(f"\n\t\tReceived message from Arduino: {received_msg}")
+                    print(f"\t\tElapsed time since message to turn magnet off sent: {time_elapsed}\n")
                     break;
         
         
@@ -104,12 +104,12 @@ class Robot:
         if target[0] != 0:
             diff = (target[0]) * MVMT_DIFF
             val = ord("A")
-            print(f"X difference: {target[0]}-{val} = {diff}")
+            #print(f"X difference: {target[0]}-{val} = {diff}")
             Y += diff
         if target[1] != 0:   
             diff = (target[1]) * MVMT_DIFF
             val = ord("1")
-            print(f"Y difference: {target[1]}-{val} = {diff}")
+            #print(f"Y difference: {target[1]}-{val} = {diff}")
             X -= diff
         
         new_pos = [X, Y, Z, RadX, RadY, RadZ]

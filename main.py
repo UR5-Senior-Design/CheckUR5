@@ -5,7 +5,7 @@ import cv2
 import pyrealsense2 as rs
 import numpy as np
 
-MINIMAX_DEPTH = 4
+MINIMAX_DEPTH = 3
 
 def findAruco(img):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -60,23 +60,25 @@ def main():
             winner = game.get_winner()
             if winner != None:
                 if winner == "orange":
-                    print(f"The UR5 Robot won the game!")
+                    print(f"The UR5 Robot won the game!\n")
                 else:
-                    print(f"The Player won the game!")
+                    print(f"The Player won the game!\n")
                 
                 # TODO: maybe give option to reset and start the game again here???
                 run = False
             # robot's turn
             elif game.turn == "orange":
                 value, new_board = minimax(game.get_board(), MINIMAX_DEPTH, "orange", game)
-
+                
                 print("UR5 Robot's turn actions: \n")
                 game.ai_move(new_board) # set robot's move decision and move robot
             # human player's turn
             elif game.turn == "blue":
                 # TODO: add turn timeout after 20 seconds
                 # timeout = 20 # 20 seconds to make a turn
-                player_input = input("Player's turn, press A to end turn or B to get more options")
+                
+                # TODO: list out the actions the player took
+                # player_input = input("Player's turn, press A to end turn or B to get more options: ")
 
                 if player_input == "A":
                     # get next frame
@@ -119,11 +121,6 @@ def main():
                     
                     # if cv2.waitKey(1) == ord("q"):
                     #     break
-                    
-                    
-                    # TODO: some computer vision logic here maybe?
-                    # maybe i could get rid of the checking for player_input from keyboard and we could just check if board in a changed and steady state?
-                    # TODO: some computer vision logic here maybe?
                 elif player_input == "B":
                     print("MORE GAME OPTIONS:")
                     player_input = input(f"\n\treset - reset the game\n\tquit - quit the game\n")

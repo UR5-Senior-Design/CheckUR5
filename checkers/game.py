@@ -21,7 +21,7 @@ class Game:
     def _init(self):
         self.selected = None
         self.board = Board()
-        self.turn = "orange"
+        self.turn = "blue"
         self.valid_moves = {}
         self.robot = Robot(arduino_port='/dev/ttyUSB0', robot_ip="192.168.1.102")
 
@@ -111,9 +111,10 @@ class Game:
                         moved[key] = {}
                     
                     moved[key]["new"] = (new_piece.row, new_piece.col)
-        
+                    
+                    
         # print list of pieces that moved
-        print(f"\tAI Play - pieces that changed: {moved}")
+        print(f"\tai_move - pieces that changed: {moved}")
         
         # physically move all the pieces from the old board to match the state of the new board
         # move all orange pieces first (there should only be one orange piece moved)
@@ -141,6 +142,7 @@ class Game:
                 self.robot.drop_in_box() 
 
                 print(f"\tRemoved blue piece {key_id} from {old_pos}")
+        
         
         self.board = new_board    #updates game with new board object
         self.change_turn()

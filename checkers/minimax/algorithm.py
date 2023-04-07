@@ -21,7 +21,6 @@ def minimax(position, depth, max_player, game):
                 best_move = move
 
         return maxEval, best_move
-
     else: #min_player & goal = to minimize score
         minEval = float('inf')
         best_move = None
@@ -47,9 +46,16 @@ def simulate_move(piece, move, board, game, skip):
 def get_all_moves(board, color, game):
     #get all possible moves we can make from current position
     moves = [] #blank list of potential new boards and the pieces that caused it
+    
+    # print(f"\nIn get_all_moves:")
+    # board.print_board()
+    # print()
 
     for piece in board.get_all_pieces(color): #loop through all pieces in board of a certain color
+        # print(f"piece to get valid move for: {piece}")
         valid_moves = board.get_valid_moves(piece) #get all valid moves for a certain piece
+        # print(f"valid moves: {valid_moves}")
+        
         for move, skip in valid_moves.items(): 
             temp_board = deepcopy(board)
             temp_piece = temp_board.get_piece(piece.row, piece.col)

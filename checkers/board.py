@@ -36,10 +36,14 @@ class Board:
         blue_count = orange_count = 0
         blue_k_count = orange_k_count = 0
         new_board = []
+        
+        # populate the new board with 0's
         for row in range(8):
             new_board.append([])
             for col in range(8):
                 new_board[row].append(0)
+        
+        # populate the new board w the pieces based on where the aruco markers are
         for id in all_arucos:
             if id > 0 and id <= 24:
                 if id < 13:
@@ -52,6 +56,8 @@ class Board:
                         blue_k_count +=1
                 if all_arucos[id][0] % 2 == ((all_arucos[id][1] + 1) % 2):
                     new_board[all_arucos[id][0]][all_arucos[id][1]] = self.piece_db[id-1]
+                    self.piece_db[id-1].move(all_arucos[id][0], all_arucos[id][1])
+        
         self.orange_left = orange_count
         self.blue_left = blue_count
         self.orange_kings = orange_k_count
@@ -116,6 +122,9 @@ class Board:
         row = piece.row
         
         if piece.color == "blue" or piece.king: #need to change to id
+            # row-1 start moving upwards
+            # stop - how far up to look
+            # dont wanna look past 2 spots
             moves.update(self._traverse_left(row - 1, max(row-3, -1), -1, piece.color, left))
             moves.update(self._traverse_right(row - 1, max(row-3, -1), -1, piece.color, right))
         
@@ -134,18 +143,22 @@ class Board:
         moves = {}
         last = []
         for r in range(start, stop, step):
+            # trying to go past board boundary
             if left < 0:
                 break
             
-            current = self.get_piece(r, left) #his code has self.board[r][left]
+            current = self.board[r][left]
+            
+            # found empty square
             if current == 0:
-                if skipped and not last:
+                if skipped and not last: # we dont have anything where we can skip again
                     break
-                elif skipped:
+                elif skipped: # combine recent skip with list of all skipped locations
                     moves[(r, left)] = last + skipped
                 else:
-                    moves[(r, left)] = last
+                    moves[(r, left)] = last # if this is 0 and last existed, that means we can jump over
                 
+                # we have something we skipped over, we prepare if we can double or triple jump
                 if last:
                     if step == -1:
                         row = max(r-3, 0)
@@ -155,9 +168,9 @@ class Board:
                     moves.update(self._traverse_left(r+step, row, step, color, left-1, skipped=last))
                     moves.update(self._traverse_right(r+step, row, step, color, left+1, skipped=last))
                 break
-            elif current.color == color:
+            elif current.color == color: # if the piece we're trying to jump over is our color, we can't jump over it
                 break
-            else:
+            else: # its not our color, so we could potentially move over the top of it, assuming its an empty square next
                 last = [current]
             
             left -= 1
@@ -172,7 +185,7 @@ class Board:
             if right >= 8:
                 break
             
-            current = self.get_piece(r, right) #his code has self.board[r][right]
+            current = self.board[r][right]
             if current == 0:
                 if skipped and not last:
                     break
