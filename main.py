@@ -45,7 +45,8 @@ def main():
     game = Game()
 
     print(f"Welcome to CheckUR5!\n\nHere are the commands you can type and send:\n")
-    userInput = input(f"\tstart - start the game\n\tquit - quit the game\n")
+    print("\tstart - start the game\n\tquit - quit the game\n")
+    userInput = input("Enter a command: ")
 
     if (userInput == 'start'):
         run = True
