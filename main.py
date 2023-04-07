@@ -76,9 +76,8 @@ def main():
             elif game.turn == "blue":
                 # TODO: add turn timeout after 20 seconds
                 # timeout = 20 # 20 seconds to make a turn
-                
-                # TODO: list out the actions the player took
-                # player_input = input("Player's turn, press A to end turn or B to get more options: ")
+
+                player_input = input("Player's turn, press A to end turn or B to get more options: ")
 
                 if player_input == "A":
                     # get next frame
@@ -133,7 +132,8 @@ def main():
                         run = False
 
                 # indicate the moves/removes human has made
-                print(f"Player's turn actions: \n")
+                # TODO: list out the actions the player took
+                # print(f"Player's turn actions: \n")
     finally:
         colorwriter.release()
         cv2.destroyAllWindows()
