@@ -57,8 +57,8 @@ def main():
         userInput = input(f"\tstart - start the game\n\tquit - quit the game\n")
     try:
         while run:
-            
             winner = game.get_winner()
+            
             if winner != None:
                 if winner == "orange":
                     print(f"The UR5 Robot won the game!\n")
@@ -135,6 +135,13 @@ def main():
                 # indicate the moves/removes human has made
                 # TODO: list out the actions the player took
                 # print(f"Player's turn actions: \n")
+
+            # show output window
+            # TODO : live feed while playing checkers game
+            # cv2.imshow("Output", output)
+            
+            # if cv2.waitKey(1) == ord("q"):
+            #     break
     finally:
         colorwriter.release()
         cv2.destroyAllWindows()
