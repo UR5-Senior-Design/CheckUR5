@@ -55,8 +55,9 @@ class Board:
                     if self.piece_db[id-1].king:
                         blue_k_count +=1
                 if all_arucos[id][0] % 2 == ((all_arucos[id][1] + 1) % 2):
-                    new_board[all_arucos[id][0]][all_arucos[id][1]] = self.piece_db[id-1]
-                    self.piece_db[id-1].move(all_arucos[id][0], all_arucos[id][1])
+                    curr_piece = self.piece_db[id-1]
+                    new_board[all_arucos[id][0]][all_arucos[id][1]] = curr_piece
+                    self.move_piece(curr_piece, all_arucos[id][0], all_arucos[id][1])
         
         self.orange_left = orange_count
         self.blue_left = blue_count
