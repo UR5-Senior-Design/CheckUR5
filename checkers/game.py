@@ -143,6 +143,8 @@ class Game:
 
                 print(f"\tRemoved blue piece {key_id} from {old_pos}")
         
+        # move robot back to resting position
+        self.robot.go_home()
         
         self.board = new_board    #updates game with new board object
         self.change_turn()
