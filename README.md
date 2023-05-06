@@ -19,7 +19,7 @@ Kevin Vu
 - 24 (MEASUREMENT HERE) checker pieces
 - Electromagnet gripper
   - Electromagnet circuit with Arduino Nano and MOSFET module
-  - See ()[./arduino_magnet/arduino_magnet.ino] for the Arduino code
+  - [Arduino code](./arduino_magnet/arduino_magnet.ino)
 - Checker piece collection box
 
 ### Dependencies
@@ -33,8 +33,8 @@ Kevin Vu
 ## Setup
 Movement logic of robot depends on its placement relative to the checkerboard and collection box. Each square's position is calculated based on the square designated as the top-left square and the distance difference between each square.
 
-To change where the top left square is, change `TOP_LEFT` in [](./checkers/robot.py)
-To change where the collection box is, change `BOX_POS` in [](./checkers/robot.py)
+To change where the top left square is, change `TOP_LEFT` in [./checkers/robot.py](./checkers/robot.py)
+To change where the collection box is, change `BOX_POS` in [./checkers/robot.py](./checkers/robot.py)
 
 **The position values we used are based on the "Base" feature.**
 ![Project setup for playing checkers with the UR5 image 1](./images/setup-1.jpg)
