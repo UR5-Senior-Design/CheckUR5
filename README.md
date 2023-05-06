@@ -1,6 +1,6 @@
 # CheckUR5
 ## About
-A Senior Design project that allows the UR5 collaborative robot arm to play a game of checkers with a human player.
+A Fall 2022 - Spring 2023 UTA Senior Design project that allows the UR5 collaborative robot arm to play a game of checkers with a human player.
 
 Team CheckUR5:
 - Nimita Uprety
