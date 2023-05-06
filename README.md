@@ -47,6 +47,12 @@ Movement logic of robot depends on its placement relative to the checkerboard an
 
 ## Playing the game
 1. Run [main.py](./main.py)
-  - `python3 ./main.py`
+    - `python3 ./main.py`
 2. Human player makes the first turn. Type `A` and press enter in the terminal to end the player's turn.
 3. Enjoy!
+
+## References
+[^1]: Techwithtim. (2020, September 3).“Techwithtim/Python-Checkers-AI/checkers: A checkers AI using the minimax algorithm.” Github, https://github.com/techwithtim/Python-Checkers-AI
+[^2]: Lindvig, A. P. (2022, October 31). Ur-rtde. PyPI. Retrieved April 7, 2023, from https://pypi.org/project/ur-rtde/ 
+[^3]: Söderby, K. (2023, March 9). Getting started with Arduino: Arduino documentation. Arduino Documentation | Arduino Documentation. Retrieved April 7, 2023, from https://docs.arduino.cc/learn/starting-guide/getting-started-arduino
+[^4]: UniversalRobots. (2012). Universal Robots User Manual Version 1.6. Universal Robots A/S.https://s3-eu-west-1.amazonaws.com/ur-support-site/17958/manual_en_UR5_CB2_1.6_US.pdf.
