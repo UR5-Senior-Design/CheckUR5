@@ -32,7 +32,7 @@ Team CheckUR5:
 - pyserial
 
 ## Setup
-Ensure the UR5 is connected to the same network as the PC is running the code. Connect the camera and Arduino to SS USB ports.
+Ensure the UR5 is connected to the same network as the PC that is running the code. Connect the camera and Arduino to SS USB ports.
 - By default, the game uses `/dev/ttyUSB0/` as the Arduino port and `192.168.1.102` as the UR5's IP address. To change these, change line 26 in the [Game code](./checkers/game.py)
 
 Movement logic of robot depends on its placement relative to the checkerboard and collection box. Each square's position is calculated based on the square designated as the top-left square and the distance difference between each square.
