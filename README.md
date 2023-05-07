@@ -52,6 +52,8 @@ Movement logic of robot depends on its placement relative to the checkerboard an
 2. Human player makes the first turn. Type `A` and press enter in the terminal to end the player's turn.
 3. Enjoy!
 
+- Demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
+
 ## References
 1. Techwithtim. (2020, September 3).“Techwithtim/Python-Checkers-AI/checkers: A checkers AI using the minimax algorithm.” Github, https://github.com/techwithtim/Python-Checkers-AI
 2. Lindvig, A. P. (2022, October 31). Ur-rtde. PyPI. Retrieved April 7, 2023, from https://pypi.org/project/ur-rtde/ 
