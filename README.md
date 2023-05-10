@@ -18,7 +18,7 @@ Final demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
 - 21 inch x 21 inch checkerboard
   - 0.5 inch border on each side
   - 2.5 inch x 2.5 inch squares
-- 24 2 inch diameter [checker pieces](./designs/"checker piece final.stl")
+- 24 2 inch diameter [checker pieces](./designs/checker-piece-final.stl)
   - With washers or any magnetic material attached and ArUco markers on top
 - Electromagnet gripper
   - Electromagnet circuit with Arduino Nano and MOSFET module
