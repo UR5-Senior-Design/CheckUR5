@@ -13,8 +13,9 @@ Final demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
 
 ## Requirements
 ### Source Code
-- [Main](./main.py)
-- [Checkers folder](./checkers)
+- [Main code](./main.py)
+- [Arduino code](./arduino_magnet/arduino_magnet.ino)
+- [Checkers code folder](./checkers)
 
 ### Physical Items
 - UR5 collaborative robot arm
