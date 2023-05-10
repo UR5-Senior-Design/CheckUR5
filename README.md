@@ -12,6 +12,10 @@ Team CheckUR5:
 Final demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
 
 ## Requirements
+### Source Code
+- [Main](./main.py)
+- [Checkers folder](./checkers)
+
 ### Physical Items
 - UR5 collaborative robot arm
 - Intel RealSense Depth Camera D435i
