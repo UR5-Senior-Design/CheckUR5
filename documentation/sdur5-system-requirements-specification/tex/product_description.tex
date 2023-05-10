@@ -1,0 +1,29 @@
+% This section provides a description of your product and defines it's primary features and functions. The purpose is to give the document reader/reviewer enough information about the product to allow them to easily follow the specification of requirements found in the remainder of the document. Your header for this section should introduce the section with a brief statement such as: "This section provides the reader with an overview of X. The primary operational aspects of the product, from the perspective of end users, maintainers and administrators, are defined here. The key features and functions found in the product, as well as critical user interactions and user interfaces are described in detail." Using words, and pictures or graphics where possible, specify the following:
+
+This section provides the reader with an overview of our Checkers-Playing UR5 Co-Bot product. The primary operational aspects of the product from the perspective of end users \& maintainers, are defined here. The key features \& functions found in the product, as well as critical user interactions are described in detail.
+
+\subsection{Features \& Functions}
+% What the product does and does not do. Specify in words what it looks like, referring to a conceptual diagram/graphic (Figure X).  Define the principle parts/components of the product. Specify the elements in the diagram/graphic that are part(s) of this product as well as any associated external elements (e.g., the Internet, an external web server, a GPS satellite, etc.)
+Our programmed UR5 co-bot is intended to have the following features and functions as outlined in Figure 1:
+\begin{itemize}
+  \item UR5 Robot Arm: core element of the product that is a programmable Universal Robots Arm with a 5 kg payload.
+  \begin{itemize}
+      \item Camera: 3D camera that will be mounted to a tall tripod to view the board and analyze it.
+      \item Electropermanent Magnet Attachment: will allow the robot arm to pick up pieces individually by turning on the magnet \& then place the pieces by turning off the magnet.
+  \end{itemize}
+  \item Checker Board \& Pieces: these game pieces will be fundamental to the product as they are what will allow the game-play between the UR5 bot and human user to take place.
+  \item Tablet: UR+ Teach Pendant device that will be used to control the robot step by step
+  \item Control Box: OEM Control Box that not only powers the UR5 co-bot but also allows for integration with external devices.
+  \item Keyboard: Input from the keyboard that will allow the user to notify the robot when they have completed their turn.
+  \item Piece Collection Box: Would ideally sit on the table next the the checkers board to allow both the human user and the co-bot to place pieces they have "won".
+  \item Monitor: Will display the computerized version of the current state of the board.
+\end{itemize}
+
+\subsection{External Inputs \& Outputs}
+% Describe critical external data flows. What does your product require/expect to receive from end users or external systems (inputs), and what is expected to be created by your product for consumption by end users or external systems (outputs)? In other words, specify here all data/information to flow into and out of your systems. A table works best here, with rows for each critical data element, and columns for name, description and use.
+Given the nature of our project there is only a single external data flow. Our UR5 Co-bot is expected to receive input from end users via the keyboard input that they will press upon completion of their turn, thus signalling the robot to play their next move.
+
+\subsection{Product Interfaces}
+% Specify what all operational (visible) interfaces look like to your end-user, administrator, maintainer, etc. Show sample/mocked-up screen shots, graphics of buttons, panels, etc. Refer to the critical external inputs and outputs described in the paragraph above.
+
+Our product will have a simple computerized version this is intended to show the current location of each players pieces.
