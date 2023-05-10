@@ -9,7 +9,7 @@ Team CheckUR5:
 - Joanna Huynh
 - Kevin Vu
 
-**Final demo video:** https://www.youtube.com/watch?v=Sb-xevwk8ww
+Final demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
 
 ## Requirements
 ### Physical Items
