@@ -1,6 +1,7 @@
 # CheckUR5
 ## About
 A Fall 2022 - Spring 2023 UTA Senior Design project that allows the UR5 collaborative robot arm to play a game of checkers with a human player.
+Final demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
 
 Team CheckUR5:
 - Nimita Uprety
@@ -46,13 +47,11 @@ Movement logic of robot depends on its placement relative to the checkerboard an
 ![Project setup for playing checkers with the UR5 image 2](./images/setup-2.jpg)
 ![The electromagnet circuit using the Arduino Nano and MOSFET module](./images/microcontroller.jpg)
 
-## Playing the game
+## Playing the Game
 1. Run [main.py](./main.py)
     - `python3 ./main.py`
 2. Human player makes the first turn. Type `A` and press enter in the terminal to end the player's turn.
 3. Enjoy!
-
-- Demo video: https://www.youtube.com/watch?v=Sb-xevwk8ww
 
 ## References
 1. Techwithtim. (2020, September 3).“Techwithtim/Python-Checkers-AI/checkers: A checkers AI using the minimax algorithm.” Github, https://github.com/techwithtim/Python-Checkers-AI
